@@ -5,7 +5,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     require_once "config.php";
     
     // Prepare a select statement
-    $sql = "SELECT * FROM products WHERE id = ?";
+    $sql = "SELECT * FROM products WHERE product_id = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
@@ -71,15 +71,15 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                     <h1 class="mt-5 mb-3">View Record</h1>
                     <div class="form-group">
                         <label>Product name</label>
-                        <p><b><?php echo $row["product_name"]; ?></b></p>
+                        <p><b><?php echo $product_name; ?></b></p>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <p><b><?php echo $row["product_descritpion"]; ?></b></p>
+                        <p><b><?php echo $product_description; ?></b></p>
                     </div>
                     <div class="form-group">
                         <label>Retail Price</label>
-                        <p><b><?php echo $row["product_retail_price"]; ?></b></p>
+                        <p><b><?php echo $product_retail_price; ?></b></p>
                     </div>
                     <p><a href="index.php" class="btn btn-primary">Back</a></p>
                 </div>
