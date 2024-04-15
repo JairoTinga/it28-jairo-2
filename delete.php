@@ -31,7 +31,7 @@ if(isset($_POST["product_id"]) && !empty($_POST["product_id"])){
     mysqli_close($link);
 } else{
     // Check existence of id parameter
-    if(empty(trim($_GET["id"]))){
+    if(empty(trim($_GET["product_id"]))){
         // URL doesn't contain id parameter. Redirect to error page
         header("location: error.php");
         exit();
@@ -61,7 +61,7 @@ if(isset($_POST["product_id"]) && !empty($_POST["product_id"])){
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="alert alert-danger">
                             <input type="hidden" name="id" value="<?php echo trim($_GET["id"]); ?>"/>
-                            <p>Are you sure you want to delete this employee record?</p>
+                            <p>Are you sure you want to delete this product record?</p>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
                                 <a href="index.php" class="btn btn-secondary">No</a>
