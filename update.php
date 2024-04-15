@@ -3,8 +3,6 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$name = $address = $salary = "";
-$name_err = $address_err = $salary_err = "";
 $product_name = $product_description = $product_retail_price = "";
 $product_name_err = $product_description_err = $product_retail_price_err = "";
  
@@ -79,7 +77,7 @@ if(isset($_POST["product_id"]) && !empty($_POST["product_id"])){
         $product_id =  trim($_GET["product_id"]);
         
         // Prepare a select statement
-        $sql = "SELECT * FROM products WHERE id = ?";
+        $sql = "SELECT * FROM products WHERE product_id = ?";
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "i", $param_product_id);

@@ -1,6 +1,6 @@
 <?php
 // Check existence of id parameter before processing further
-if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
+if(isset($_GET["product_id"]) && !empty(trim($_GET["product_id"]))){
     // Include config file
     require_once "config.php";
     
@@ -12,7 +12,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
         mysqli_stmt_bind_param($stmt, "i", $param_id);
         
         // Set parameters
-        $param_id = trim($_GET["id"]);
+        $param_product_id = trim($_GET["product_id"]);
         
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
