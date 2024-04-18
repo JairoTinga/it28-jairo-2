@@ -2,20 +2,20 @@
 // Process delete operation after confirmation
 if(isset($_POST["product_id"]) && !empty($_POST["product_id"])){
     // Include config file
-    require_once "config.php";
+    require_once "../db/config.php";
     
     // Prepare a delete statement
-    $sql = "DELETE FROM products WHERE product_id = ?";
+    $sql = "DELETE FROM products WHERE product_id = :product_id";
     
-    if($stmt = mysqli_prepare($link, $sql)){
+    if($stmt = $pdo->prepare($sql)){
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_product_id);
+        $stmt->bindParam(":product_id", $param_product_id);
         
         // Set parameters
         $param_product_id = trim($_POST["product_id"]);
         
         // Attempt to execute the prepared statement
-        if(mysqli_stmt_execute($stmt)){
+        if($stmt->execute()){
             // Records deleted successfully. Redirect to landing page
             header("location: index.php");
             exit();
@@ -25,10 +25,10 @@ if(isset($_POST["product_id"]) && !empty($_POST["product_id"])){
     }
      
     // Close statement
-    mysqli_stmt_close($stmt);
+    unset($stmt);
     
     // Close connection
-    mysqli_close($link);
+    unset($pdo);
 } else{
     // Check existence of id parameter
     if(empty(trim($_GET["product_id"]))){
@@ -60,11 +60,11 @@ if(isset($_POST["product_id"]) && !empty($_POST["product_id"])){
                     <h2 class="mt-5 mb-3">Delete Record</h2>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="alert alert-danger">
-                            <input type="hidden" name="id" value="<?php echo trim($_GET["id"]); ?>"/>
-                            <p>Are you sure you want to delete this product record?</p>
+                            <input type="hidden" name="product_id" value="<?php echo trim($_GET["product_id"]); ?>"/>
+                            <p>Are you sure you want to delete this employee record?</p>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
-                                <a href="index.php" class="btn btn-secondary">No</a>
+                                <a href="../index.php" class="btn btn-secondary ml-2">No</a>
                             </p>
                         </div>
                     </form>
