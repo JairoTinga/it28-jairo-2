@@ -1,6 +1,20 @@
+<?php
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -9,13 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        .wrapper{
-            width: 600px;
-            margin: 0 auto;
-        }
-        table tr td:last-child{
-            width: 120px;
-        }
+        body{ font: 14px sans-serif; text-align: center; }
     </style>
     <script>
         $(document).ready(function(){
@@ -24,6 +32,11 @@
     </script>
 </head>
 <body>
+<h1 class="my-5">Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
+    <p>
+        <a href="./public/reset-password.php" class="btn btn-warning">Reset Your Password</a>
+        <a href="./public/logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a>
+    </p>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -33,6 +46,8 @@
                         <a href="./public/create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Product</a>
                     </div>
                     <?php
+                    
+                    
                     // Include config file
                     require_once "./db/config.php";
                     
