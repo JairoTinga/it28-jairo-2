@@ -27,7 +27,7 @@ if(isset($_GET["product_id"]) && !empty(trim($_GET["product_id"]))){
                 $product_retail_price = $row["product_retail_price"];
             } else{
                 // URL doesn't contain valid id parameter. Redirect to error page
-                header("location: ../public/error.php");
+                header("location: error.php");
                 exit();
             }
             
@@ -79,7 +79,7 @@ if(isset($_GET["product_id"]) && !empty(trim($_GET["product_id"]))){
                         <label>Retail Price</label>
                         <p><b><?php echo $row["product_retail_price"]; ?></b></p>
                     </div>
-                    <p><a href="../index.php" class="btn btn-primary">Back</a></p>
+                    <p><a href="dashboard.php" class="btn btn-primary">Back</a></p>
                 </div>
             </div>        
         </div>
