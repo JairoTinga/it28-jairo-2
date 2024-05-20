@@ -3,8 +3,8 @@
 require_once "../db/config.php";
  
 // Define variables and initialize with empty values
-$product_name = $product_details = $product_retail_price = "";
-$product_name_err = $product_details_err = $product_retail_price_err = "";
+$product_name = $product_details = $product_retail_price = $quantity = "";
+$product_name_err = $product_details_err = $product_retail_price_err = $quantity_err = "";
  
 // Processing form data when form is submitted
 if(isset($_POST["product_id"]) && !empty($_POST["product_id"])){

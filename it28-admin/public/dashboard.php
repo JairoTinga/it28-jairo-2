@@ -65,6 +65,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         echo "<th>Product Name</th>";
                                         echo "<th>Product Description</th>";
                                         echo "<th>Retail Price</th>";
+                                        echo "<th>Quantity</th>";
                                         echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
@@ -75,6 +76,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         echo "<td>" . $row['product_name'] . "</td>";
                                         echo "<td>" . $row['product_details'] . "</td>";
                                         echo "<td>" . $row['product_retail_price'] . "</td>";
+                                        echo "<td>" . $row['quantity'] . "</td>";
                                         echo "<td>";
                                             echo '<a href="read.php?product_id='. $row['product_id'] .'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                             echo '<a href="update.php?product_id='. $row['product_id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';

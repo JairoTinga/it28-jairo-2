@@ -106,11 +106,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                         // Define the row template
                         $rowTemplate = '
                             <tr>
-                                <td>{{id}}</td>
-                                <td>{{title}}</td>
-                                <td>{{description}}</td>
-                                <td>{{price}}</td>
-                                <td>{{rrp}}</td>
+                                <td>{{product_id}}</td>
+                                <td>{{product_name}}</td>
+                                <td>{{product_details}}</td>
+                                <td>{{product_retail_price}}</td>
                                 <td>{{quantity}}</td>
                                 <td>{{img}}</td>
                                 <td>{{date_added}}</td>
@@ -126,8 +125,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                         $rows = '';
                         while ($row = $result->fetch()) {
                             $rowHtml = str_replace(
-                                array('{{id}}', '{{title}}', '{{description}}', '{{price}}', '{{rrp}}', '{{quantity}}', '{{img}}', '{{date_added}}'),
-                                array($row['id'], $row['title'], $row['description'], $row['price'], $row['rrp'], $row['quantity'], $row['img'], $row['date_added']),
+                                array('{{product_id}}', '{{product_name}}', '{{product_details}}', '{{product_retail_price}}', '{{quantity}}', '{{img}}', '{{date_added}}'),
+                                array($row['product_id'], $row['product_name'], $row['product_details'], $row['product_retail_price'], $row['quantity'], $row['img'], $row['date_added']),
                                 $rowTemplate
                             );
                             $rows .= $rowHtml;
