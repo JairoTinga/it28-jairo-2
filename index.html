@@ -81,10 +81,10 @@
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="${product.img}">
                             <div class="card-body">
-                                <h5 class="card-title">${product.title}</h5><br>Price: ₱${product.rrp}<br>
-                                <p class="card-text">${product.description}.</p>
+                                <h5 class="card-title">${product.product_name}</h5><br>Price: ₱${product.product_retail_price}<br>
+                                <p class="card-text">${product.product_details}.</p>
                                 <p class="card-text"<br>Quantity: ${product.quantity}</p>
-                                 <button class="btn btn-success" onclick="addToCart(${product.id})">
+                                 <button class="btn btn-success" onclick="addToCart(${product.product_id})">
                                     <i class="fas fa-cart-plus"></i> <!-- Add to Cart icon -->
                                 Add to Cart
                             </button>
