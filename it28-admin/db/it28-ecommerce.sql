@@ -28,11 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
-  `title` varchar(200) NOT NULL,
-  `description` text NOT NULL,
-  `price` decimal(10,0) NOT NULL,
-  `rrp` decimal(10,0) NOT NULL DEFAULT 0,
+  `product_id` int(11) NOT NULL,
+  `product_name` varchar(200) NOT NULL,
+  `product_details` text NOT NULL,
+  `product_retail_price` decimal(10,0) NOT NULL DEFAULT 0,
   `quantity` int(11) NOT NULL,
   `img` text NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp()
@@ -42,12 +41,12 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `title`, `description`, `price`, `rrp`, `quantity`, `img`, `date_added`) VALUES
-(1, 'Isaw', 'Grilled chicken or pork intestines marinated in a tangy and spicy sauce.', 20, 25, 50, 'https://www.lasabbq.com/cdn/shop/products/BBQChickenIsaw1.jpg', '2024-05-08 00:00:00'),
-(2, 'Balut', 'Fertilized duck embryo boiled and commonly sold as street food in the Philippines.', 15, 20, 30, 'https://facts.net/wp-content/uploads/2020/10/AdobeStock_279704615.jpeg', '2024-05-08 00:00:00'),
-(3, 'Kwek-Kwek', 'Quail eggs coated in orange batter and deep-fried, often served with vinegar.', 10, 15, 40, 'https://www.kawalingpinoy.com/wp-content/uploads/2019/07/kwek-kwek-14.jpg', '2024-05-08 00:00:00'),
-(4, 'Fish Balls', 'Deep-fried fish balls served with sweet and spicy sauce.', 12, 18, 60, 'https://www.foxyfolksy.com/wp-content/uploads/2021/05/fish-balls.jpg', '2024-05-08 00:00:00'),
-(5, 'Taho', 'Silken tofu topped with sweet syrup and tapioca pearls.', 25, 30, 20, 'https://i0.wp.com/iankewks.com/wp-content/uploads/2023/06/IMG_2347.jpg', '2024-05-08 00:00:00');
+INSERT INTO `products` (`product_id`, `product_name`, `product_details`, `product_retail_price`, `quantity`, `img`, `date_added`) VALUES
+(1, 'Isaw', 'Grilled chicken or pork intestines marinated in a tangy and spicy sauce.', 25, 50, 'https://www.lasabbq.com/cdn/shop/products/BBQChickenIsaw1.jpg', '2024-05-08 00:00:00'),
+(2, 'Balut', 'Fertilized duck embryo boiled and commonly sold as street food in the Philippines.', 20, 30, 'https://facts.net/wp-content/uploads/2020/10/AdobeStock_279704615.jpeg', '2024-05-08 00:00:00'),
+(3, 'Kwek-Kwek', 'Quail eggs coated in orange batter and deep-fried, often served with vinegar.', 15, 40, 'https://www.kawalingpinoy.com/wp-content/uploads/2019/07/kwek-kwek-14.jpg', '2024-05-08 00:00:00'),
+(4, 'Fish Balls', 'Deep-fried fish balls served with sweet and spicy sauce.', 18, 60, 'https://www.foxyfolksy.com/wp-content/uploads/2021/05/fish-balls.jpg', '2024-05-08 00:00:00'),
+(5, 'Taho', 'Silken tofu topped with sweet syrup and tapioca pearls.', 30, 20, 'https://i0.wp.com/iankewks.com/wp-content/uploads/2023/06/IMG_2347.jpg', '2024-05-08 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -99,7 +98,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`product_id`);
 
 --
 -- Indexes for table `purchases`
@@ -115,8 +114,7 @@ ALTER TABLE `purchases`
 --
 -- AUTO_INCREMENT for table `products`
 --
-ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 
 --
 -- AUTO_INCREMENT for table `purchases`
@@ -131,8 +129,8 @@ ALTER TABLE `purchases`
 --
 -- Constraints for table `purchases`
 --
-ALTER TABLE `purchases`
-  ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `products`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
