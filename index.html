@@ -14,19 +14,20 @@
             gap: 20px; /* Gap between grid items */
             padding: 20px; /* Add padding around the grid container */
             width: 80%; /* Set width to 80% */
+            margin: 0 auto; /* Center the grid */
         }
-
 
         /* Style for individual cards */
         .card {
             width: 100%; /* Ensure cards take full width of their container */
         }
 
-        .card-img-top{
+        .card-img-top {
             width: 100%; /* Ensure the image fills its container */
             height: auto; /* Maintain aspect ratio */
             object-fit: cover; /* Ensure the image covers the entire container */
         }
+
         /* Style for the cart */
         #cartContainer {
             position: fixed;
@@ -37,6 +38,11 @@
             padding: 10px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 999;
+            max-width: 300px; /* Set a max-width for the cart container */
+        }
+
+        #checkoutButton {
+            width: 100%; /* Ensure the button takes full width of its container */
         }
     </style>
 </head>
@@ -65,76 +71,66 @@
 
     <div id="productsDisplay" class="card-grid"></div>
     <!-- Cart Display Area -->
-    <div id="cartContainer"></div>
+    <div id="cartContainer">
+        <form action="checkout.php" method="post" id="checkoutForm">
+            <div id="cartItems"></div>
+            <input type="hidden" name="cart" id="cartInput">
+            <button id="checkoutButton" class="btn btn-primary" type="submit">Proceed to Checkout</button>
+        </form>
+    </div>
 
     <script>
-        fetch('./products/products-api.php')
-            .then(response => response.json())
-            .then(data => {
-                const booksContainer = document.getElementById('productsDisplay');
-                data.forEach(product => {
-                    const cardHTML = `
-                    
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('./products/products-api.php')
+                .then(response => response.json())
+                .then(data => {
+                    const productsContainer = document.getElementById('productsDisplay');
+                    data.forEach(product => {
+                        const cardHTML = `
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="${product.img}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${product.title}</h5><br>Price: ₱${product.rrp}<br>
+                                    <p class="card-text">${product.description}.</p>
+                                    <p class="card-text"><br>Quantity: ${product.quantity}</p>
+                                    <button class="btn btn-success" onclick="addToCart(${product.id}, '${product.title}', ${product.rrp})">
+                                        <i class="fas fa-cart-plus"></i> <!-- Add to Cart icon -->
+                                    Add to Cart
+                                </button>
+                                </div>
+                        </div>
+                        `;
+                        productsContainer.innerHTML += cardHTML;
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        });
 
-                    <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="${product.img}">
-                            <div class="card-body">
-                                <h5 class="card-title">${product.title}</h5><br>Price: ₱${product.rrp}<br>
-                                <p class="card-text">${product.description}.</p>
-                                <p class="card-text"<br>Quantity: ${product.quantity}</p>
-                                 <button class="btn btn-success" onclick="addToCart(${product.id})">
-                                    <i class="fas fa-cart-plus"></i> <!-- Add to Cart icon -->
-                                Add to Cart
-                            </button>
-                            </div>
-                    </div>
-
-                    `;
-                    booksContainer.innerHTML += cardHTML;
-                });
-            })
-            .catch(error => console.error('Error:', error));
+        // Initialize cart object
+        let cart = {};
 
         // Function to add a product to the cart
-        function addToCart(productId) {
-            // Here, you can implement your logic to add the product with the given ID to the cart
-            console.log(`Product with ID ${productId} added to cart`);
-            // For example, you can send an AJAX request to your server to update the cart
+        function addToCart(productId, productTitle, productPrice) {
+            if (cart[productId]) {
+                cart[productId].quantity++;
+            } else {
+                cart[productId] = { title: productTitle, price: productPrice, quantity: 1 };
+            }
+            displayCart();
         }
 
         // Function to display the cart with the items added and deduct the values from the quantity data field
         function displayCart() {
-            // Here, you can implement the logic to display the cart with the items added and update the quantity data field
-        }
-
-        // Initialize cart object
-    let cart = {};
-
-    // Function to add a product to the cart
-    function addToCart(productId) {
-        // Add the product to the cart
-        if (cart[productId]) {
-            cart[productId]++;
-        } else {
-            cart[productId] = 1;
-        }
-        // Display the updated cart
-        displayCart();
-    }
-
-    // Function to display the cart with the items added and deduct the values from the quantity data field
-    function displayCart() {
-        const cartContainer = document.getElementById('cartContainer');
+            const cartItemsContainer = document.getElementById('cartItems');
             let cartHTML = '<h3>Cart</h3>';
-            // Iterate over the cart items and display them
-            for (const [productId, quantity] of Object.entries(cart)) {
-                cartHTML += `<p>Product ID: ${productId}, Quantity: ${quantity}</p>`;
-                // Here, you can update the quantity data field for the corresponding product
+            for (const [productId, product] of Object.entries(cart)) {
+                cartHTML += `<p>${product.title}: ${product.quantity} @ ₱${product.price}</p>`;
             }
-            // Update the cart display
-            cartContainer.innerHTML = cartHTML;
-    }
+            cartItemsContainer.innerHTML = cartHTML;
 
+            // Update the hidden input field with cart data
+            document.getElementById('cartInput').value = JSON.stringify(cart);
+        }
     </script>
 </body>
 </html>
