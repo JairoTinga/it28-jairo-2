@@ -34,7 +34,7 @@
             top: 4em;
             right: 20px;
             background-color: #fff;
-            border: 1px solid #5a5a5a;
+            border: 1px solid #ddd;
             padding: 10px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 999;
@@ -46,6 +46,8 @@
         }
     </style>
 </head>
+<body>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
         <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -57,6 +59,9 @@
         <li class="nav-item active">
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -64,70 +69,69 @@
       </form>
     </div>
 </nav>
-<body>
 
-    <div id="productsDisplay" class="card-grid"></div>
-    <!-- Cart Display Area -->
-    <div id="cartContainer">
-        <form action="checkout.php" method="post" id="checkoutForm">
-            <div id="cartItems"></div>
-            <input type="hidden" name="cart" id="cartInput">
-            <button id="checkoutButton" class="btn btn-primary" type="submit">Proceed to Checkout</button>
-        </form>
-    </div>
+<div id="productsDisplay" class="card-grid"></div>
+<!-- Cart Display Area -->
+<div id="cartContainer">
+    <form action="checkout.php" method="post" id="checkoutForm">
+        <div id="cartItems"></div>
+        <input type="hidden" name="cart" id="cartInput">
+        <button id="checkoutButton" class="btn btn-primary" type="submit">Proceed to Checkout</button>
+    </form>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('./products/products-api.php')
-                .then(response => response.json())
-                .then(data => {
-                    const productsContainer = document.getElementById('productsDisplay');
-                    data.forEach(product => {
-                        const cardHTML = `
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" src="${product.img}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${product.title}</h5><br>Price: ₱${product.rrp}<br>
-                                    <p class="card-text">${product.description}.</p>
-                                    <p class="card-text"><br>Quantity: ${product.quantity}</p>
-                                    <button class="btn btn-success" onclick="addToCart(${product.id}, '${product.title}', ${product.rrp})">
-                                        <i class="fas fa-cart-plus"></i> <!-- Add to Cart icon -->
-                                    Add to Cart
-                                </button>
-                                </div>
-                        </div>
-                        `;
-                        productsContainer.innerHTML += cardHTML;
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-        });
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('./products/products-api.php')
+            .then(response => response.json())
+            .then(data => {
+                const productsContainer = document.getElementById('productsDisplay');
+                data.forEach(product => {
+                    const cardHTML = `
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="${product.img}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.product_name}</h5><br>Price: ₱${product.product_retail_price}<br>
+                                <p class="card-text">${product.product_details}.</p>
+                                <p class="card-text"><br>Quantity: ${product.quantity}</p>
+                                <button class="btn btn-success" onclick="addToCart(${product.product_id}, '${product.product_name}', ${product.product_retail_price})">
+                                    <i class="fas fa-cart-plus"></i> <!-- Add to Cart icon -->
+                                Add to Cart
+                            </button>
+                            </div>
+                    </div>
+                    `;
+                    productsContainer.innerHTML += cardHTML;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
 
-        // Initialize cart object
-        let cart = {};
+    // Initialize cart object
+    let cart = {};
 
-        // Function to add a product to the cart
-        function addToCart(productId, productTitle, productPrice) {
-            if (cart[productId]) {
-                cart[productId].quantity++;
-            } else {
-                cart[productId] = { title: productTitle, price: productPrice, quantity: 1 };
-            }
-            displayCart();
+    // Function to add a product to the cart
+    function addToCart(productId, productTitle, productPrice) {
+        if (cart[productId]) {
+            cart[productId].quantity++;
+        } else {
+            cart[productId] = { title: productTitle, price: productPrice, quantity: 1 };
         }
+        displayCart();
+    }
 
-        // Function to display the cart with the items added and deduct the values from the quantity data field
-        function displayCart() {
-            const cartItemsContainer = document.getElementById('cartItems');
-            let cartHTML = '<h3>Cart</h3>';
-            for (const [productId, product] of Object.entries(cart)) {
-                cartHTML += `<p>${product.title}: ${product.quantity} @ ₱${product.price}</p>`;
-            }
-            cartItemsContainer.innerHTML = cartHTML;
-
-            // Update the hidden input field with cart data
-            document.getElementById('cartInput').value = JSON.stringify(cart);
+    // Function to display the cart with the items added and deduct the values from the quantity data field
+    function displayCart() {
+        const cartItemsContainer = document.getElementById('cartItems');
+        let cartHTML = '<h3>Cart</h3>';
+        for (const [productId, product] of Object.entries(cart)) {
+            cartHTML += `<p>${product.title}: ${product.quantity} @ ₱${product.price}</p>`;
         }
-    </script>
+        cartItemsContainer.innerHTML = cartHTML;
+
+        // Update the hidden input field with cart data
+        document.getElementById('cartInput').value = JSON.stringify(cart);
+    }
+</script>
 </body>
 </html>
